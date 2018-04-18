@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "material-ui-search-bar";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import Locations from "./components/Locations/Locations.js"
 
 const API_KEY = "iXmwxvZBItQ8qNuc3zC0jLElZ";
 
@@ -26,6 +27,8 @@ class App extends React.Component {
             }}
           />
         </MuiThemeProvider>
+        
+        <Locations />
       </div>
     );
   }
