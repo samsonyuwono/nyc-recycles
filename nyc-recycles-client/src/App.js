@@ -1,7 +1,6 @@
 import React from "react";
 import Locations from "./components/Locations";
-import SearchBar from "material-ui-search-bar";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import Searchbar from "./components/Searchbar";
 
 class App extends React.Component {
   render() {
