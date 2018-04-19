@@ -1,13 +1,13 @@
 import React from "react";
-import Searchbar from "./components/Searchbar";
-import Locations from "./components/Locations.js";
+import Locations from "./components/Locations";
+import SearchBar from "material-ui-search-bar";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 class App extends React.Component {
   render() {
     return (
       <div>
         <h1>NYC Recyles</h1>
-        <Searchbar />
         <Locations />
       </div>
     );

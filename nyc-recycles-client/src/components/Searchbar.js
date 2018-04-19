@@ -1,18 +1,40 @@
 import React from "react";
-import SearchBar from "material-ui-search-bar";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 class Searchbar extends React.Component {
+  handleOnChange = event => {
+    console.log("blah");
+  };
+
+  handleOnChange = event => {
+    console.log(event.target.value);
+    console.log(this.props);
+    // this.props.searchBorough(event.target.value);
+  };
+
+  searchBorough(query) {
+    let boroughs = this.state.bins.filter(bin => {
+      const regex = new RegExp(query, "gi");
+      return bin.borough.match(regex);
+    });
+    this.setState({ boroughs: boroughs });
+  }
+
   render() {
     return (
       <MuiThemeProvider>
         <div className="BarContainer">
-          <SearchBar
-            style={{
-              margin: "0 auto",
-              maxWidth: 800
-            }}
-          />
+          <form onSubmit={this.searchBorough.bind(this)}>
+            <label>Search Bar</label>
+            <input
+              type="search"
+              onChange={this.handleOnChange.bind(this)}
+              value={this.state.input}
+              name="search"
+            />
+            <button type="submit" id="submit">
+              <i className="material-icons icn-search">search</i>
+            </button>
+          </form>
         </div>
       </MuiThemeProvider>
     );
