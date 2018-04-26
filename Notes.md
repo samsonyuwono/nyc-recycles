@@ -1,15 +1,9 @@
 NYC Recyles
+The goal of this application is to use your current location to find the nearest public recycling bins. To find recycling bins you can either use your current location or enter in an address.
 
-Tools:
+The data for the public recycling bins will be from NYC Open Data while the map data will be from the Google maps api.
 
-1.  Rails
-2.  Active Record Gem
-3.  Aciive Model Serializer Gem
-4.  React
-5.  Redux
-6.  Redux Thunk
-
-Components
+Components-
 Search bar
 Map
 Dot- Park site name
@@ -18,11 +12,10 @@ Latitude
 Zoom
 Address
 Radius
-Redux for fetchAll and fetchOne
 
 Search by
 
-* Borough?
+* Borough- Done
 * Current Location
 
 A user will type in their current location and be able to locate the nearest recycling bins within a specified Radius
