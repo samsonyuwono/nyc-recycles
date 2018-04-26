@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Locations from "./Locations";
 import Searchbar from "./Searchbar";
+import BinsTable from "./BinsTable";
+import "../assets/Locations.css";
 
 class FilteredLocationTable extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class FilteredLocationTable extends React.Component {
 
     this.state = {
       bins: [],
-      term: ""
+      input: ""
     };
     this.fetchBins();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -22,20 +23,20 @@ class FilteredLocationTable extends React.Component {
 
   handleOnChange = event => {
     console.log(event.target);
-    this.setState({ term: event.target.value });
+    this.setState({ input: event.target.value });
   };
 
-  searchBorough = term => {
+  searchBorough = input => {
     return function(x) {
-      return x.borough.toLowerCase().includes(term.toLowerCase()) || !term;
+      return x.borough.toLowerCase().includes(input.toLowerCase()) || !input;
     };
   };
 
   render() {
     const { bins } = this.state;
-    console.log(this.state.term);
+    console.log(this.props);
     let binShow = bins
-      .filter(this.searchBorough(this.state.term))
+      .filter(this.searchBorough(this.state.input))
       .map((bin, index) => {
         return (
           <div key={index} className="LocationContainer">
@@ -52,10 +53,10 @@ class FilteredLocationTable extends React.Component {
               <span className="Label">Longitude:</span> {bin.longitude}
             </p>
             <p>
-              <span className="Label">Longitude:</span> {bin.park_site_name}
+              <span className="Label">Park Site:</span> {bin.park_site_name}
             </p>
             <p>
-              <span className="Label">Longitude:</span> {bin.site_type}
+              <span className="Label">Type:</span> {bin.site_type}
             </p>
           </div>
         );
@@ -64,7 +65,7 @@ class FilteredLocationTable extends React.Component {
       <div className="BinContainer">
         <h4>Locations of public recycling bins throughout NYC</h4>
         <div className="BarContainer">
-          <Searchbar onChange={this.handleOnChange} value={this.state.term} />{" "}
+          <Searchbar onChange={this.handleOnChange} value={this.state.input} />{" "}
         </div>
         <div className="BinWrapper" />
         {binShow}

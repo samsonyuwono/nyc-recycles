@@ -1,4 +1,5 @@
 import React from "react";
+import "../assets/Locations.css";
 
 class Searchbar extends React.Component {
   render() {
