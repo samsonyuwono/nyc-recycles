@@ -1,11 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-class Map extends React.Component {
-  componentDidMount() {
-    this.loadMap();
-  }
+const API_KEY = process.env.GOOGLE_API_KEY;
 
+class Map extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
@@ -14,17 +12,15 @@ class Map extends React.Component {
 
   loadMap() {
     if (this.props && this.props.google) {
-      // google is available
       const { google } = this.props;
-      const maps = google.maps;
+      const map = google.maps;
 
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
-
       let zoom = 14;
       let lat = 37.774929;
       let lng = -122.419416;
-      const center = new maps.LatLng(lat, lng);
+      const center = new map.LatLng(lat, lng);
       const mapConfig = Object.assign(
         {},
         {
@@ -32,7 +28,7 @@ class Map extends React.Component {
           zoom: zoom
         }
       );
-      this.map = new maps.Map(node, mapConfig);
+      this.map = new map.Map(node, mapConfig);
     }
   }
 
