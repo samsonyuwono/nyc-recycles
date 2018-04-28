@@ -1,6 +1,7 @@
 import React from "react";
 import FilteredLocationTable from "./components/FilteredLocationTable";
 import MapContainer from "./components/MapContainer";
+
 class App extends React.Component {
   render() {
     return (

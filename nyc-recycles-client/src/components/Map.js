@@ -1,9 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 
-const API_KEY = process.env.GOOGLE_API_KEY;
+export class Map extends React.Component {
+  constructor(props) {
+    super(props);
 
-class Map extends React.Component {
+    const { lat, lng } = this.props.initialCenter;
+    this.state = {
+      currentLocation: {
+        lat: lat,
+        lng: lng
+      }
+    };
+  }
+
+  componentDidMount() {
+    this.loadMap();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
@@ -12,15 +27,15 @@ class Map extends React.Component {
 
   loadMap() {
     if (this.props && this.props.google) {
+      // google is available
       const { google } = this.props;
-      const map = google.maps;
-
+      const maps = google.maps;
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
-      let zoom = 14;
-      let lat = 37.774929;
-      let lng = -122.419416;
-      const center = new map.LatLng(lat, lng);
+      console.log(node);
+      let { initial, zoom } = this.props;
+      const { lat, lng } = this.state.currentLocation;
+      const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
         {},
         {
@@ -28,13 +43,35 @@ class Map extends React.Component {
           zoom: zoom
         }
       );
-      this.map = new map.Map(node, mapConfig);
+      this.map = new maps.Map(node, mapConfig);
+      console.log(this.map);
     }
   }
-
   render() {
-    return <div ref="map">Loading map...</div>;
+    const style = {
+      width: "50vw",
+      height: "50vh"
+    };
+    return (
+      <div style={style} ref="map">
+        Loading map...
+      </div>
+    );
   }
 }
+
+Map.propTypes = {
+  google: PropTypes.object,
+  zoom: PropTypes.number,
+  initialCenter: PropTypes.object
+};
+Map.defaultProps = {
+  zoom: 8,
+  // San Francisco, by default
+  initialCenter: {
+    lat: 40.577492,
+    lng: -73.946325
+  }
+};
 
 export default Map;

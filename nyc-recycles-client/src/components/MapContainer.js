@@ -1,21 +1,18 @@
 import React from "react";
 import Map from "./Map";
-import { GoogleApiComponent, GoogleApiWrapper } from "google-maps-react";
+import { GoogleApiWrapper } from "google-maps-react";
 
-const API_KEY = process.env.GOOGLE_API_KEY;
+let apiKey = "AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo";
 
 class MapContainer extends React.Component {
   render() {
     console.log(this.props.google);
     const style = {
-      width: "100vw",
-      height: "100vh"
+      width: "50vw",
+      height: "50vh"
     };
-    if (!this.props.loaded) {
-      return <div>Loading...</div>;
-    }
     return (
-      <div>
+      <div style={style}>
         <Map google={this.props.google} />
       </div>
     );
@@ -23,5 +20,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDJ1uSITaZeaMYS7Sd-7kD-VVw594qon7Y"
+  apiKey: "AIzaSyDCvMjhwAUggY8VmB8seyipG49EzJ7uLs0"
 })(MapContainer);
