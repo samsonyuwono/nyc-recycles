@@ -16,7 +16,6 @@ export class Map extends React.Component {
   }
 
   componentDidMount() {
-    console.log(!this.props.centerAroundCurrentLocation);
     if (!this.props.centerAroundCurrentLocation) {
       if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
@@ -56,6 +55,7 @@ export class Map extends React.Component {
   }
 
   loadMap() {
+    const evtNames = ["ready", "click", "dragend"];
     if (this.props && this.props.google) {
       const { google } = this.props;
       const maps = google.maps;
@@ -74,7 +74,57 @@ export class Map extends React.Component {
         }
       );
       this.map = new maps.Map(node, mapConfig);
+
+      evtNames.forEach(e => {
+        this.map.addListener(e, this.handleEvent(e));
+      });
+      console.log(this.map);
+      maps.event.trigger(this.map, "ready");
     }
+  }
+
+  handleEvent(evtName) {
+    let timeout;
+    const handlerName = evtName
+      .split(" ")
+      .map(function(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join("");
+    console.log(handlerName);
+    return e => {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      timeout = setTimeout(() => {
+        if (this.props[handlerName]) {
+          this.props[handlerName](this.props, this.map, e);
+        }
+      }, 0);
+    };
+  }
+
+  camelize(str) {
+    return str
+      .split(" ")
+      .map(function(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join("");
+  }
+
+  renderChildren() {
+    const { children } = this.props;
+    if (!children) return;
+
+    return React.Children.map(children, c => {
+      return React.cloneElement(c, {
+        map: this.map,
+        google: this.props.google,
+        mapCenter: this.state.currentLocation
+      });
+    });
   }
 
   render() {
@@ -86,6 +136,7 @@ export class Map extends React.Component {
     return (
       <div style={style} ref="map">
         Loading map...
+        {this.renderChildren()}
       </div>
     );
   }
@@ -100,7 +151,7 @@ Map.propTypes = {
 };
 Map.defaultProps = {
   onMove: function() {},
-  zoom: 12,
+  zoom: 13,
   initialCenter: {
     lat: 40.7485722,
     lng: -74.0068633
