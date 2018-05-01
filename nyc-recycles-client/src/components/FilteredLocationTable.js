@@ -34,7 +34,7 @@ class FilteredLocationTable extends React.Component {
 
   render() {
     const { bins } = this.state;
-    console.log(this.props);
+    console.log(bins);
     let binShow = bins
       .filter(this.searchBorough(this.state.input))
       .map((bin, index) => {

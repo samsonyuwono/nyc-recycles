@@ -16,6 +16,20 @@ export class Map extends React.Component {
   }
 
   componentDidMount() {
+    console.log(!this.props.centerAroundCurrentLocation);
+    if (!this.props.centerAroundCurrentLocation) {
+      if (navigator && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const coords = pos.coords;
+          this.setState({
+            currentLocation: {
+              lat: coords.latitude,
+              lng: coords.longitude
+            }
+          });
+        });
+      }
+    }
     this.loadMap();
   }
 
@@ -23,17 +37,33 @@ export class Map extends React.Component {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
     }
+    if (prevState.currentLocation !== this.state.currentLocation) {
+      this.recenterMap();
+    }
+  }
+
+  recenterMap() {
+    const map = this.map;
+    const curr = this.state.currentLocation;
+
+    const google = this.props.google;
+    const maps = google.maps;
+
+    if (map) {
+      let center = new maps.LatLng(curr.lat, curr.lng);
+      map.panTo(center);
+    }
   }
 
   loadMap() {
     if (this.props && this.props.google) {
-      // google is available
       const { google } = this.props;
       const maps = google.maps;
+
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
-      console.log(node);
-      let { initial, zoom } = this.props;
+
+      let { initialCenter, zoom } = this.props;
       const { lat, lng } = this.state.currentLocation;
       const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
@@ -44,12 +74,13 @@ export class Map extends React.Component {
         }
       );
       this.map = new maps.Map(node, mapConfig);
-      console.log(this.map);
     }
   }
+
   render() {
+    const evtNames = ["click", "dragend"];
     const style = {
-      width: "50vw",
+      width: "100vw",
       height: "50vh"
     };
     return (
@@ -63,15 +94,18 @@ export class Map extends React.Component {
 Map.propTypes = {
   google: PropTypes.object,
   zoom: PropTypes.number,
-  initialCenter: PropTypes.object
+  initialCenter: PropTypes.object,
+  centerAroundCurrentLocation: PropTypes.bool,
+  onMove: PropTypes.func
 };
 Map.defaultProps = {
-  zoom: 8,
-  // San Francisco, by default
+  onMove: function() {},
+  zoom: 12,
   initialCenter: {
-    lat: 40.577492,
-    lng: -73.946325
-  }
+    lat: 40.7485722,
+    lng: -74.0068633
+  },
+  centerAroundCurrentLocation: false
 };
 
 export default Map;
