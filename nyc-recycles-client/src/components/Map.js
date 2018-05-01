@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import Marker from "./Marker";
 
 export class Map extends React.Component {
   constructor(props) {
@@ -105,15 +106,6 @@ export class Map extends React.Component {
     };
   }
 
-  camelize(str) {
-    return str
-      .split(" ")
-      .map(function(word) {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      })
-      .join("");
-  }
-
   renderChildren() {
     const { children } = this.props;
     if (!children) return;
@@ -128,7 +120,6 @@ export class Map extends React.Component {
   }
 
   render() {
-    const evtNames = ["click", "dragend"];
     const style = {
       width: "100vw",
       height: "50vh"

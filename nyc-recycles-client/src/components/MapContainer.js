@@ -6,15 +6,18 @@ import { GoogleApiWrapper } from "google-maps-react";
 class MapContainer extends React.Component {
   render() {
     console.log(this.props.google);
-    const pos = { lat: 40.7485722, lng: -74.0068633 };
+    const pos = { lat: 40.687, lng: -73.97 };
     return (
       <div>
-        <Map google={this.props.google} />
+        <Map google={this.props.google}>
+          <Marker />
+          <Marker position={pos} />
+        </Map>
       </div>
     );
   }
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyBmOdLihjhv3ceqqXBD-HBp1o7-iHEuZww"
+  apiKey: process.env.GOOGLE_API_KEY
 })(MapContainer);
