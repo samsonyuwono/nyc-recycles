@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import Marker from "./Marker";
 
 export class Map extends React.Component {
   constructor(props) {
@@ -64,7 +63,7 @@ export class Map extends React.Component {
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
 
-      let { initialCenter, zoom } = this.props;
+      let { zoom } = this.props;
       const { lat, lng } = this.state.currentLocation;
       const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
