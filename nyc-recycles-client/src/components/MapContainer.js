@@ -15,28 +15,33 @@ class MapContainer extends React.Component {
     };
   }
 
-  onMarkerClick(props, marker, showingInfoWindow) {
+  onMarkerClick = (props, marker, e) => {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
     });
-  }
+  };
+
+  onMapClick = () => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      });
+    }
+  };
 
   render() {
-    console.log(this.state.showingInfoWindow);
     const pos = { lat: 40.687, lng: -73.97 };
     return (
       <div>
-        <Map google={this.props.google}>
-          <Marker
-            onClick={this.onMarkerClick}
-            name={"Dolores park"}
-            position={pos}
-          />
+        <Map google={this.props.google} onClick={this.onMapClick}>
+          <Marker onClick={this.onMarkerClick} name={"NAME"} position={pos} />
           <InfoWindow
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
+            onClose={this.onInfoWindowClose}
           >
             <div>
               <h1>{this.state.selectedPlace.content}</h1>

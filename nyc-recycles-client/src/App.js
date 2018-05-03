@@ -6,7 +6,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>NYC Recyles</h1>
+        <h1>NYC Recycles</h1>
         <MapContainer />
         <FilteredLocationTable />
       </div>

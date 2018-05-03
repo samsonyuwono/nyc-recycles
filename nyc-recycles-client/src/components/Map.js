@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import { camelize } from "../lib/String";
+
+const evtNames = ["ready", "click", "dragend"];
 
 export class Map extends React.Component {
   constructor(props) {
@@ -55,7 +58,6 @@ export class Map extends React.Component {
   }
 
   loadMap() {
-    const evtNames = ["ready", "click", "dragend"];
     if (this.props && this.props.google) {
       const { google } = this.props;
       const maps = google.maps;
@@ -81,16 +83,12 @@ export class Map extends React.Component {
       console.log(this.map);
       maps.event.trigger(this.map, "ready");
     }
+    this.forceUpdate();
   }
 
   handleEvent(evtName) {
     let timeout;
-    const handlerName = evtName
-      .split(" ")
-      .map(function(word) {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      })
-      .join("");
+    const handlerName = `on${camelize(evtName)}`;
     console.log(handlerName);
     return e => {
       if (timeout) {
@@ -139,6 +137,9 @@ Map.propTypes = {
   centerAroundCurrentLocation: PropTypes.bool,
   onMove: PropTypes.func
 };
+
+evtNames.forEach(e => (Map.propTypes[camelize(e)] = PropTypes.func));
+
 Map.defaultProps = {
   onMove: function() {},
   zoom: 13,
