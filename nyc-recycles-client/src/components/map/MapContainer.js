@@ -37,14 +37,18 @@ class MapContainer extends React.Component {
     return (
       <div>
         <Map google={this.props.google} onClick={this.onMapClick}>
-          <Marker onClick={this.onMarkerClick} name={"NAME"} position={pos} />
+          <Marker
+            onClick={this.onMarkerClick}
+            name={"Fort Greene"}
+            position={pos}
+          />
           <InfoWindow
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
             onClose={this.onInfoWindowClose}
           >
             <div>
-              <h1>{this.state.selectedPlace.content}</h1>
+              <h1>{this.state.selectedPlace.name}</h1>
             </div>
           </InfoWindow>
         </Map>

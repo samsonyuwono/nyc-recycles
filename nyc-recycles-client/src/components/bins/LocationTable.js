@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Searchbar from "./Searchbar";
 import BinsTable from "./BinsTable";
-import "../assets/Locations.css";
+import "../../assets/Locations.css";
 
-class FilteredLocationTable extends React.Component {
+class LocationTable extends React.Component {
   constructor(props) {
     super(props);
 
@@ -74,4 +74,4 @@ class FilteredLocationTable extends React.Component {
   }
 }
 
-export default FilteredLocationTable;
+export default LocationTable;

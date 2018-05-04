@@ -1,6 +1,6 @@
 import React from "react";
-import FilteredLocationTable from "./components/FilteredLocationTable";
-import MapContainer from "./components/MapContainer";
+import LocationTable from "./components/bins/LocationTable";
+import MapContainer from "./components/map/MapContainer";
 
 class App extends React.Component {
   render() {
@@ -8,7 +8,7 @@ class App extends React.Component {
       <div>
         <h1>NYC Recycles</h1>
         <MapContainer />
-        <FilteredLocationTable />
+        <LocationTable />
       </div>
     );
   }
