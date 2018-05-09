@@ -21,8 +21,13 @@ class LocationTable extends React.Component {
       .then(json => this.setState({ bins: json }));
   }
 
+  getLatitude() {
+    fetch("https://data.cityofnewyork.us/resource/ggvk-gyea.json")
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }
+
   handleOnChange = event => {
-    console.log(event.target);
     this.setState({ input: event.target.value });
   };
 
@@ -34,7 +39,6 @@ class LocationTable extends React.Component {
 
   render() {
     const { bins } = this.state;
-    console.log(bins);
     let binShow = bins
       .filter(this.searchBorough(this.state.input))
       .map((bin, index) => {

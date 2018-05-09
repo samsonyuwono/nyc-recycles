@@ -117,6 +117,7 @@ export class Map extends React.Component {
   }
 
   render() {
+    console.log(this.props.initialCenter);
     const style = {
       width: "100vw",
       height: "50vh"
