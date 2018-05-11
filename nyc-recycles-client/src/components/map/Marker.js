@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { camelize } from "../../lib/String";
+import { camelize } from "../../Services/String";
 const evtNames = ["click", "mouseover", "recenter"];
 
 const wrappedPromise = function() {

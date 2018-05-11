@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { camelize } from "../../lib/String";
+import { camelize } from "../../Services/String";
+import { fetchBins } from "../../Services/bins";
 
 const evtNames = ["ready", "click", "dragend"];
 
@@ -11,20 +12,24 @@ export class Map extends React.Component {
 
     const { lat, lng } = this.props.initialCenter;
     this.state = {
-      currentLocation: {
+      locations: {
         lat: lat,
         lng: lng
-      }
+      },
+      bins: []
     };
   }
 
   componentDidMount() {
+    fetchBins().then(json => {
+      this.setState({ bins: json });
+    });
     if (!this.props.centerAroundCurrentLocation) {
       if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           const coords = pos.coords;
           this.setState({
-            currentLocation: {
+            locations: {
               lat: coords.latitude,
               lng: coords.longitude
             }
@@ -39,14 +44,14 @@ export class Map extends React.Component {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
     }
-    if (prevState.currentLocation !== this.state.currentLocation) {
+    if (prevState.locations !== this.state.locations) {
       this.recenterMap();
     }
   }
 
   recenterMap() {
     const map = this.map;
-    const curr = this.state.currentLocation;
+    const curr = this.state.locations;
 
     const google = this.props.google;
     const maps = google.maps;
@@ -65,23 +70,24 @@ export class Map extends React.Component {
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
 
-      let { zoom } = this.props;
-      const { lat, lng } = this.state.currentLocation;
-      const center = new maps.LatLng(lat, lng);
+      // let { zoom } = this.props;
+      // const { lat, lng } = this.state.locations;
+      // const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
         {},
         {
-          center: center,
-          zoom: zoom
+          center: {
+            lat: 40.7485722,
+            lng: -74.0068633
+          },
+          zoom: 13,
+          gestureHandling: "cooperative",
+          mapTypeId: "roadmap"
         }
       );
       this.map = new maps.Map(node, mapConfig);
-
-      evtNames.forEach(e => {
-        this.map.addListener(e, this.handleEvent(e));
-      });
-      console.log(this.map);
-      maps.event.trigger(this.map, "ready");
+      var bins = [];
+      console.log(this.props);
     }
     this.forceUpdate();
   }
@@ -111,13 +117,18 @@ export class Map extends React.Component {
       return React.cloneElement(c, {
         map: this.map,
         google: this.props.google,
-        mapCenter: this.state.currentLocation
+        mapCenter: this.state.locations
       });
     });
   }
 
   render() {
-    console.log(this.props.initialCenter);
+    const { bins } = this.state;
+    let binLatLng = bins.forEach(bin => {
+      const pos = [bin.latitude, bin.longitude];
+      // console.log(pos);
+    });
+    console.log(this.state.bins);
     const style = {
       width: "100vw",
       height: "50vh"

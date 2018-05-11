@@ -2,30 +2,19 @@ import React, { Component } from "react";
 import Searchbar from "./Searchbar";
 import BinsTable from "./BinsTable";
 import "../../assets/Locations.css";
+import { fetchBins } from "../../Services/bins";
 
 class LocationTable extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    bins: [],
+    input: ""
+  };
 
-    this.state = {
-      bins: [],
-      input: ""
-    };
-    this.fetchBins();
-    this.handleOnChange = this.handleOnChange.bind(this);
-  }
-
-  fetchBins() {
-    fetch("https://data.cityofnewyork.us/resource/ggvk-gyea.json")
-      .then(results => results.json())
-      .then(json => this.setState({ bins: json }));
-  }
-
-  getLatitude() {
-    fetch("https://data.cityofnewyork.us/resource/ggvk-gyea.json")
-      .then(response => response.json())
-      .then(data => console.log(data));
-  }
+  componentDidMount = () => {
+    fetchBins().then(json => {
+      this.setState({ bins: json });
+    });
+  };
 
   handleOnChange = event => {
     this.setState({ input: event.target.value });

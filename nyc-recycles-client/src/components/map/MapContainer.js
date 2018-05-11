@@ -11,16 +11,8 @@ class MapContainer extends React.Component {
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: {},
-      bins: []
+      selectedPlace: {}
     };
-    this.getBins();
-  }
-
-  getBins() {
-    fetch("https://data.cityofnewyork.us/resource/ggvk-gyea.json")
-      .then(response => response.json())
-      .then(json => this.setState({ bins: json }));
   }
 
   onMarkerClick = (props, marker, e) => {
@@ -41,22 +33,11 @@ class MapContainer extends React.Component {
   };
 
   render() {
-    const { bins } = this.state;
-    console.log(bins);
-    let binLatLng = bins.forEach(function(element) {
-      var latLng = { lat: element.latitude, lng: element.longitude };
-      console.log(latLng);
-    });
-
-    const pos = binLatLng;
+    const pos = { lat: 40.682555999999998, lng: -73.961974999999995 };
     return (
       <div>
         <Map google={this.props.google} onClick={this.onMapClick}>
-          <Marker
-            onClick={this.onMarkerClick}
-            name={"FAB"}
-            position={binLatLng}
-          />
+          <Marker onClick={this.onMarkerClick} name={"FAB"} position={pos} />
           <InfoWindow
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
