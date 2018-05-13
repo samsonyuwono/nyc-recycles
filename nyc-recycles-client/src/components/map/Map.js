@@ -9,7 +9,7 @@ const evtNames = ["ready", "click", "dragend"];
 export class Map extends React.Component {
   constructor(props) {
     super(props);
-
+    const { latitude, longitude, name } = this.props;
     const { lat, lng } = this.props.initialCenter;
     this.state = {
       locations: {
@@ -21,6 +21,7 @@ export class Map extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({ bins: [] });
     fetchBins().then(json => {
       this.setState({ bins: json });
     });
@@ -28,6 +29,7 @@ export class Map extends React.Component {
       if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           const coords = pos.coords;
+          console.log(coords);
           this.setState({
             locations: {
               lat: coords.latitude,
@@ -86,8 +88,10 @@ export class Map extends React.Component {
         }
       );
       this.map = new maps.Map(node, mapConfig);
-      var bins = [];
-      console.log(this.props);
+      evtNames.forEach(e => {
+        this.map.addListener(e, this.handleEvent(e));
+      });
+      maps.event.trigger(this.map, "ready");
     }
     this.forceUpdate();
   }
@@ -111,6 +115,8 @@ export class Map extends React.Component {
 
   renderChildren() {
     const { children } = this.props;
+    console.log(this.state.locations);
+
     if (!children) return;
 
     return React.Children.map(children, c => {
@@ -128,7 +134,7 @@ export class Map extends React.Component {
       const pos = [bin.latitude, bin.longitude];
       // console.log(pos);
     });
-    console.log(this.state.bins);
+    // console.log(this.state.bins);
     const style = {
       width: "100vw",
       height: "50vh"

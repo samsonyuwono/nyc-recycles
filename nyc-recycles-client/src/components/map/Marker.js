@@ -2,7 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { camelize } from "../../Services/String";
-const evtNames = ["click", "mouseover", "recenter"];
+
+const evtNames = [
+  "click",
+  "dblclick",
+  "dragend",
+  "mousedown",
+  "mouseout",
+  "mouseover",
+  "mouseup",
+  "recenter"
+];
 
 const wrappedPromise = function() {
   var wrappedPromise = {},
@@ -26,8 +36,12 @@ export class Marker extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       this.props.map !== prevProps.map ||
-      this.props.position !== prevProps.position
+      this.props.position !== prevProps.position ||
+      this.props.icon !== prevProps.icon
     ) {
+      if (this.marker) {
+        this.marker.setMap(null);
+      }
       this.renderMarker();
     }
   }
@@ -39,22 +53,34 @@ export class Marker extends React.Component {
   }
 
   renderMarker() {
-    if (this.marker) {
-      this.marker.setMap(null);
-    }
-    let { map, google, position, mapCenter } = this.props;
+    const {
+      map,
+      google,
+      position,
+      mapCenter,
+      icon,
+      label,
+      draggable,
+      title,
+      ...props
+    } = this.props;
     if (!google) {
       return null;
     }
 
     let pos = position || mapCenter;
     if (!(pos instanceof google.maps.LatLng)) {
-      position = new google.maps.LatLng(pos.lat, pos.lng);
+      pos = new google.maps.LatLng(pos.lat, pos.lng);
     }
 
     const pref = {
-      map: map,
-      position: position
+      map,
+      position: pos,
+      icon,
+      label,
+      title,
+      draggable,
+      ...props
     };
     this.marker = new google.maps.Marker(pref);
 
