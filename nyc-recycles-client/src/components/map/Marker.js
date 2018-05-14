@@ -1,47 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { camelize } from "../../Services/String";
 
-const evtNames = [
-  "click",
-  "dblclick",
-  "dragend",
-  "mousedown",
-  "mouseout",
-  "mouseover",
-  "mouseup",
-  "recenter"
-];
-
-const wrappedPromise = function() {
-  var wrappedPromise = {},
-    promise = new Promise(function(resolve, reject) {
-      wrappedPromise.resolve = resolve;
-      wrappedPromise.reject = reject;
-    });
-  wrappedPromise.then = promise.then.bind(promise);
-  wrappedPromise.catch = promise.catch.bind(promise);
-  wrappedPromise.promise = promise;
-
-  return wrappedPromise;
-};
+const evtNames = ["click", "mouseover", "recenter"];
 
 export class Marker extends React.Component {
   componentDidMount() {
-    this.markerPromise = wrappedPromise();
     this.renderMarker();
   }
 
   componentDidUpdate(prevProps) {
     if (
       this.props.map !== prevProps.map ||
-      this.props.position !== prevProps.position ||
-      this.props.icon !== prevProps.icon
+      this.props.position !== prevProps.position
     ) {
-      if (this.marker) {
-        this.marker.setMap(null);
-      }
       this.renderMarker();
     }
   }
@@ -53,46 +25,30 @@ export class Marker extends React.Component {
   }
 
   renderMarker() {
-    const {
-      map,
-      google,
-      position,
-      mapCenter,
-      icon,
-      label,
-      draggable,
-      title,
-      ...props
-    } = this.props;
+    console.log(this.props.bins);
+    if (this.marker) {
+      this.marker.setMap(null);
+    }
+    let { map, google, position, mapCenter, bins } = this.props;
+    console.log(this.props);
     if (!google) {
       return null;
     }
 
     let pos = position || mapCenter;
     if (!(pos instanceof google.maps.LatLng)) {
-      pos = new google.maps.LatLng(pos.lat, pos.lng);
+      position = new google.maps.LatLng(pos.lat, pos.lng);
     }
 
     const pref = {
-      map,
-      position: pos,
-      icon,
-      label,
-      title,
-      draggable,
-      ...props
+      map: map,
+      position: position
     };
     this.marker = new google.maps.Marker(pref);
 
     evtNames.forEach(e => {
       this.marker.addListener(e, this.handleEvent(e));
     });
-
-    this.markerPromise.resolve(this.marker);
-  }
-
-  getMarker() {
-    return this.markerPromise;
   }
 
   handleEvent(evt) {

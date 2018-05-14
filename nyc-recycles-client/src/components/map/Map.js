@@ -2,29 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { camelize } from "../../Services/String";
-import { fetchBins } from "../../Services/bins";
 
 const evtNames = ["ready", "click", "dragend"];
 
 export class Map extends React.Component {
   constructor(props) {
     super(props);
-    const { latitude, longitude, name } = this.props;
     const { lat, lng } = this.props.initialCenter;
     this.state = {
       locations: {
         lat: lat,
         lng: lng
-      },
-      bins: []
+      }
     };
   }
 
   componentDidMount() {
-    this.setState({ bins: [] });
-    fetchBins().then(json => {
-      this.setState({ bins: json });
-    });
     if (!this.props.centerAroundCurrentLocation) {
       if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
@@ -73,7 +66,6 @@ export class Map extends React.Component {
       const node = ReactDOM.findDOMNode(mapRef);
 
       // let { zoom } = this.props;
-      // const { lat, lng } = this.state.locations;
       // const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
         {},
@@ -118,23 +110,20 @@ export class Map extends React.Component {
     console.log(this.state.locations);
 
     if (!children) return;
-
-    return React.Children.map(children, c => {
-      return React.cloneElement(c, {
-        map: this.map,
-        google: this.props.google,
-        mapCenter: this.state.locations
-      });
-    });
+    return React.Children.map(
+      children,
+      child =>
+        child
+          ? React.cloneElement(child, {
+              map: this.map,
+              google: this.props.google,
+              mapCenter: this.state.locations
+            })
+          : child
+    );
   }
 
   render() {
-    const { bins } = this.state;
-    let binLatLng = bins.forEach(bin => {
-      const pos = [bin.latitude, bin.longitude];
-      // console.log(pos);
-    });
-    // console.log(this.state.bins);
     const style = {
       width: "100vw",
       height: "50vh"

@@ -43,19 +43,19 @@ class MapContainer extends React.Component {
   };
 
   render() {
-    const pos = { lat: 40.682555999999998, lng: -73.961974999999995 };
+    const binLatLng = this.state.bins.map(bin => {
+      return (
+        <Marker
+          onClick={this.onMarkerClick}
+          name={bin.park_site_name}
+          position={{ lat: bin.latitude, lng: bin.longitude }}
+        />
+      );
+    });
     return (
       <div>
         <Map google={this.props.google} onClick={this.onMapClick}>
-          <Marker onClick={this.onMarkerClick} name={"FAB"} position={pos} />
-          <Marker
-            name={"A Better Community Garden"}
-            position={{ lat: 40.677973, lng: -73.928171 }}
-          />
-          <Marker
-            name={"Asser Levy"}
-            position={{ lat: 40.57519, lng: -73.971342 }}
-          />
+          {binLatLng}
           <InfoWindow
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
