@@ -10,7 +10,7 @@ export class Map extends React.Component {
     super(props);
     const { lat, lng } = this.props.initialCenter;
     this.state = {
-      locations: {
+      currentLocation: {
         lat: lat,
         lng: lng
       }
@@ -22,9 +22,8 @@ export class Map extends React.Component {
       if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           const coords = pos.coords;
-          console.log(coords);
           this.setState({
-            locations: {
+            currentLocation: {
               lat: coords.latitude,
               lng: coords.longitude
             }
@@ -39,14 +38,14 @@ export class Map extends React.Component {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
     }
-    if (prevState.locations !== this.state.locations) {
+    if (prevState.currentLocation !== this.state.currentLocation) {
       this.recenterMap();
     }
   }
 
   recenterMap() {
     const map = this.map;
-    const curr = this.state.locations;
+    const curr = this.state.currentLocation;
 
     const google = this.props.google;
     const maps = google.maps;
@@ -65,8 +64,6 @@ export class Map extends React.Component {
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
 
-      // let { zoom } = this.props;
-      // const center = new maps.LatLng(lat, lng);
       const mapConfig = Object.assign(
         {},
         {
@@ -107,7 +104,6 @@ export class Map extends React.Component {
 
   renderChildren() {
     const { children } = this.props;
-    console.log(this.state.locations);
 
     if (!children) return;
     return React.Children.map(
@@ -117,7 +113,7 @@ export class Map extends React.Component {
           ? React.cloneElement(child, {
               map: this.map,
               google: this.props.google,
-              mapCenter: this.state.locations
+              mapCenter: this.state.currentLocation
             })
           : child
     );
@@ -126,7 +122,7 @@ export class Map extends React.Component {
   render() {
     const style = {
       width: "100vw",
-      height: "50vh"
+      height: "150vh"
     };
     return (
       <div style={style} ref="map">
@@ -149,7 +145,7 @@ evtNames.forEach(e => (Map.propTypes[camelize(e)] = PropTypes.func));
 
 Map.defaultProps = {
   onMove: function() {},
-  zoom: 13,
+  zoom: 11,
   initialCenter: {
     lat: 40.7485722,
     lng: -74.0068633

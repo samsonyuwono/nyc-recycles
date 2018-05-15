@@ -80,7 +80,6 @@ InfoWindow.propTypes = {
   children: PropTypes.element.isRequired,
   marker: PropTypes.object,
   visible: PropTypes.bool,
-
   onClose: PropTypes.func,
   onOpen: PropTypes.func
 };

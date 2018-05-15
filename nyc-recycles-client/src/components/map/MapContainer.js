@@ -18,11 +18,9 @@ class MapContainer extends React.Component {
   }
 
   componentDidMount() {
-    let bins = { bins: [] };
     fetchBins().then(json => {
       this.setState({ bins: json });
     });
-    console.log(bins);
   }
 
   onMarkerClick = (props, marker, e) => {
@@ -43,11 +41,14 @@ class MapContainer extends React.Component {
   };
 
   render() {
-    const binLatLng = this.state.bins.map(bin => {
+    console.log(this.state.bins);
+    const binLatLng = this.state.bins.map((bin, i) => {
       return (
         <Marker
+          key={i}
           onClick={this.onMarkerClick}
           name={bin.park_site_name}
+          address={bin.address}
           position={{ lat: bin.latitude, lng: bin.longitude }}
         />
       );
@@ -62,7 +63,10 @@ class MapContainer extends React.Component {
             onClose={this.onInfoWindowClose}
           >
             <div>
-              <h1>{this.state.selectedPlace.name}</h1>
+              <h4>{this.state.selectedPlace.name}</h4>
+              <h6>
+                <b>Address:</b> {this.state.selectedPlace.address}
+              </h6>
             </div>
           </InfoWindow>
         </Map>

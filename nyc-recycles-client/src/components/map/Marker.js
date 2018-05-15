@@ -25,12 +25,10 @@ export class Marker extends React.Component {
   }
 
   renderMarker() {
-    console.log(this.props.bins);
     if (this.marker) {
       this.marker.setMap(null);
     }
-    let { map, google, position, mapCenter, bins } = this.props;
-    console.log(this.props);
+    let { map, google, position, mapCenter } = this.props;
     if (!google) {
       return null;
     }
