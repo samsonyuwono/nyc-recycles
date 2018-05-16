@@ -41,7 +41,6 @@ class MapContainer extends React.Component {
   };
 
   render() {
-    console.log(this.state.bins);
     const binLatLng = this.state.bins.map((bin, i) => {
       return (
         <Marker
