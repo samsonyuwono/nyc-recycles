@@ -3,7 +3,7 @@ import Map from "./Map";
 import Marker from "./Marker";
 import InfoWindow from "./InfoWindow";
 import { GoogleApiWrapper } from "google-maps-react";
-import { fetchBins } from "../../Services/bins";
+import { fetchBins } from "../../services/bins";
 
 class MapContainer extends React.Component {
   constructor(props) {

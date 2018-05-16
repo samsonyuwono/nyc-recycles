@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { camelize } from "../../Services/String";
+import { camelize } from "../../services/string";
 
 const evtNames = ["ready", "click", "dragend"];
 
