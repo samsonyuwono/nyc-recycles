@@ -3,15 +3,10 @@ The goal of this application is to use your current location to find the nearest
 
 The data for the public recycling bins will be from NYC Open Data while the map data will be from the Google maps api.
 
-Components-
-Search bar
-Map
-Dot- Park site name
-Longitude
-Latitude
-Zoom
-Address
-Radius
+To-do:
+Dot for current location
+Search by current location
+Format InfoWindow
 
 Search by
 

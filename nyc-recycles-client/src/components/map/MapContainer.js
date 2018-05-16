@@ -41,7 +41,6 @@ class MapContainer extends React.Component {
   };
 
   render() {
-    console.log(this.state.bins);
     const binLatLng = this.state.bins.map((bin, i) => {
       return (
         <Marker
@@ -76,5 +75,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: process.env.GOOGLE_API_KEY
+  apiKey: process.env.GOOGLE_API_PROD_KEY
 })(MapContainer);
