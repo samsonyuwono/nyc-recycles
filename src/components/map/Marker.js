@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { camelize } from "../../services/string";
+import { camelize } from "../../Services/String";
 
 const evtNames = ["click", "mouseover", "recenter"];
 
