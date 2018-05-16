@@ -1,0 +1,21 @@
+.BinContainer {
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.BinWrapper {
+  width: 100%;
+}
+
+.LocationContainer {
+  display: block;
+  margin: 20px auto;
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.LocationContainer .Label {
+  font-weight: 600;
+}
