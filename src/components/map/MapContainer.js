@@ -8,7 +8,6 @@ import { fetchBins } from "../../Services/bins";
 class MapContainer extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
@@ -75,5 +74,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: process.env.GOOGLE_API_PROD_KEY
+  apiKey: "AIzaSyADgT2xsIhayzleDiojxvde3pWdr3vUGkM"
 })(MapContainer);
