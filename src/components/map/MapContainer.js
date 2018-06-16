@@ -57,7 +57,6 @@ class MapContainer extends React.Component {
         <Map google={this.props.google} onClick={this.onMapClick}>
           {binLatLng}
           <InfoWindow
-            marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
             onClose={this.onInfoWindowClose}
           >

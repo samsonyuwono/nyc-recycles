@@ -39,6 +39,7 @@ export class Map extends React.Component {
       this.loadMap();
     }
     if (prevState.currentLocation !== this.state.currentLocation) {
+      console.log(prevState);
       this.recenterMap();
     }
   }
@@ -106,17 +107,14 @@ export class Map extends React.Component {
     const { children } = this.props;
 
     if (!children) return;
-    return React.Children.map(
-      children,
-      child =>
-        child
-          ? React.cloneElement(child, {
-              map: this.map,
-              google: this.props.google,
-              mapCenter: this.state.currentLocation
-            })
-          : child
-    );
+
+    return React.Children.map(children, c => {
+      return React.cloneElement(c, {
+        map: this.map,
+        google: this.props.google,
+        mapCenter: this.state.currentLocation
+      });
+    });
   }
 
   render() {
